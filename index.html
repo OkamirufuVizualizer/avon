@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webcam Fullscreen con Filtro</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #333;
+        }
+
+        #container {
+            position: relative;
+            width: 100vw; /* 100% del ancho de la ventana */
+            height: 100vh; /* 100% del alto de la ventana */
+        }
+
+        video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Asegura que el video cubra todo el contenedor */
+        }
+
+        #filtro {
+            position: absolute;
+            width: 25%; /* Un cuarto del ancho del contenedor */
+            height: 25%; /* Un cuarto del alto del contenedor */
+            bottom: 10%; /* Puedes ajustar la posición de la imagen a tu gusto */
+            right: 10%;
+            pointer-events: none; /* Para que puedas hacer clic en el video, no en la imagen */
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <video id="webcam" autoplay playsinline muted></video>
+        <img id="filtro" src="img/filtro1.png" alt="Filtro">
+    </div>
+
+    <script>
+        const video = document.getElementById('webcam');
+        const filtro = document.getElementById('filtro');
+        let filtroActual = 1;
+
+        // Función para manejar el acceso a la webcam
+        function iniciarWebcam() {
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(stream => {
+                    video.srcObject = stream;
+                    console.log("Webcam iniciada correctamente.");
+                })
+                .catch(err => {
+                    console.error("Error al acceder a la webcam: ", err);
+                });
+        }
+
+        // Llamar a la función para iniciar el stream de la cámara
+        iniciarWebcam();
+
+        // Cambiar el filtro al hacer clic en cualquier parte de la pantalla
+        document.body.addEventListener('click', () => {
+            filtroActual = (filtroActual === 1) ? 2 : 1;
+            filtro.src = `img/filtro${filtroActual}.png`;
+        });
+    </script>
+</body>
+</html>
