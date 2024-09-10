@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Webcam Fullscreen con Filtro</title>
+    <title>Webcam Fullscreen Responsive con Filtro</title>
     <style>
         body, html {
             margin: 0;
@@ -20,6 +20,7 @@
             position: relative;
             width: 100vw; /* 100% del ancho de la ventana */
             height: 100vh; /* 100% del alto de la ventana */
+            overflow: hidden;
         }
 
         video {
@@ -28,17 +29,25 @@
             left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Asegura que el video cubra todo el contenedor */
+            object-fit: cover; /* Asegura que el video cubra todo el contenedor sin deformarse */
         }
 
         #filtro {
             position: absolute;
-            width: 25%; /* Un cuarto del ancho del contenedor */
-            height: 25%; /* Un cuarto del alto del contenedor */
-            bottom: 10%; /* Puedes ajustar la posición de la imagen a tu gusto */
+            width: 25vw; /* Un cuarto del ancho de la pantalla en términos de viewport */
+            height: auto; /* Mantener la proporción original de la imagen */
+            bottom: 10%;
             right: 10%;
-            pointer-events: none; /* Para que puedas hacer clic en el video, no en la imagen */
+            pointer-events: none; /* Permitir que el clic pase al video */
         }
+
+        /* Estilos para pantallas pequeñas (móviles, etc.) */
+        @media (max-width: 600px) {
+            #filtro {
+                width: 40vw; /* Ajustar para que sea más grande en pantallas pequeñas */
+            }
+        }
+
     </style>
 </head>
 <body>
